@@ -6,4 +6,5 @@ The [`jvs.csv`](https://github.com/ncn-foreigners/Workshop-on-Survey-Statistics-
 
 [`practice_part_one.R`](https://github.com/ncn-foreigners/Workshop-on-Survey-Statistics-2024-nonprobsvy/blob/main/codes/practice_part_one.R) contains the code used during the lecture and [`practice_part_two.R`](https://github.com/ncn-foreigners/Workshop-on-Survey-Statistics-2024-nonprobsvy/blob/main/codes/practice_part_two.R) will contain code from the practical part of the workshop after its done.
 
-The presentation on the theoretical part may be found in [ ]().
+The presentation on the theoretical part may be found in
+[ncn_workshop_nonprobsvy_eng_Survey_Statistics_2024.pdf](https://github.com/ncn-foreigners/Workshop-on-Survey-Statistics-2024-nonprobsvy/tree/main/presentation).
