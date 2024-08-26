@@ -55,7 +55,6 @@ y_true
 
 y_naive <- mean(sample_B$Y)
 
-
 ###########################
 ### Inverse Probability Weighting
 ###########################
