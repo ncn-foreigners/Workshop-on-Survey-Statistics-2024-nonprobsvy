@@ -5,14 +5,14 @@
 # remove.packages("nonprobsvy")
 # NONPROBSVY
 # Install from CRAN
-install.packages("nonprobsvy")
+# install.packages("nonprobsvy")
 # Install a development version
-devtools::install_github("ncn-foreigners/nonprobsvy@dev", force = TRUE)
+# devtools::install_github("ncn-foreigners/nonprobsvy@dev", force = TRUE)
 
 # Other required packages for workshops
-install.packages("sampling")
-install.packages("survey")
-install.packages("ggplot")
+# install.packages("sampling")
+# install.packages("survey")
+# install.packages("ggplot")
 
 library(sampling)
 library(survey)
@@ -75,7 +75,7 @@ ipw_logit_sample_gee <- nonprob(selection = ~ X1 + X2 + X3 + X4,
                                 data = sample_B,
                                 svydesign = sample_A_svy,
                                 method_selection = "logit",
-                                control_selection = controlSel(est_method_sel = "gee", h = 2)) 
+                                control_selection = controlSel(est_method_sel = "gee", h = 2))
 
 cbind(ipw_logit_sample_gee$output,ipw_logit_sample_gee$confidence_interval)
 
@@ -121,8 +121,7 @@ dr_logit_sample_mle <- nonprob(selection = ~ X1 + X2 + X3 + X4,
                                outcome = Y ~ X1 + X2 + X3 + X4,
                                data = sample_B,
                                svydesign = sample_A_svy,
-                               method_selection = "logit",
-                               verbose = TRUE)
+                               method_selection = "logit")
 
 cbind(dr_logit_sample_mle$output,dr_logit_sample_mle$confidence_interval)
 
@@ -132,22 +131,9 @@ dr_logit_sample_gee <- nonprob(selection = ~ X1 + X2 + X3 + X4,
                                data = sample_B,
                                svydesign = sample_A_svy,
                                method_selection = "logit",
-                               control_selection = controlSel(est_method_sel = "gee", h = 1),
-                               verbose = TRUE)
+                               control_selection = controlSel(est_method_sel = "gee", h = 1))
 
 cbind(dr_logit_sample_gee$output,dr_logit_sample_gee$confidence_interval)
-
-
-### Bias Minimization - must be run on dev version
-dr_logit_sample_mm <- nonprob(selection = ~ X1 + X2 + X3 + X4,
-                              outcome = Y ~ X1 + X2 + X3 + X4,
-                              data = sample_B,
-                              svydesign = sample_A_svy,
-                              method_selection = "logit",
-                              verbose = TRUE,
-                              control_inference = controlInf(bias_correction = TRUE))
-
-cbind(dr_logit_sample_mm$output,dr_logit_sample_mm$confidence_interval)
 
 ###########################
 ### Variable Selection
@@ -160,8 +146,7 @@ ipw_logit_sample_scad <- nonprob(selection = ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 
                                  svydesign = sample_A_svy,
                                  method_selection = "logit",
                                  control_selection = controlSel(penalty = "SCAD"),
-                                 control_inference = controlInf(vars_selection = TRUE,
-                                                                num_boot = 50),
+                                 control_inference = controlInf(vars_selection = TRUE),
                                  verbose = TRUE)
 
 cbind(ipw_logit_sample_scad$output,ipw_logit_sample_scad$confidence_interval)
@@ -190,7 +175,7 @@ dr_logit_sample_scad <- nonprob(selection = ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 +
 
 cbind(dr_logit_sample_scad$output, dr_logit_sample_scad$confidence_interval)
 
-### SCAD penalty for DR with bias minimization approach - must be run on dev version
+### SCAD penalty for DR with bias minimization approach 
 
 dr_logit_sample_mm_scad <- nonprob(selection = ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + X8 + X9 + X10,
                                    outcome = Y ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + X8 + X9 + X10,
@@ -204,30 +189,31 @@ dr_logit_sample_mm_scad <- nonprob(selection = ~ X1 + X2 + X3 + X4 + X5 + X6 + X
 cbind(dr_logit_sample_mm_scad$output, dr_logit_sample_mm_scad$confidence_interval)
 
 ###########################
-### Variable Selection
+### BOOTSTRAP
 ###########################
+
+# MI
+mi_sample_glm_boot <- nonprob(outcome = Y ~ X3 + X4 + X5 + X6,
+                             data = sample_B,
+                             svydesign = sample_A_svy,
+                             method_outcome = "glm",
+                             family_outcome = "gaussian",
+                             control_inference = controlInf(var_method = "bootstrap", num_boot = 100),
+                             verbose = TRUE)
+
+cbind(mi_sample_glm_boot$output,mi_sample_glm_boot$confidence_interval)
 
 ### IPW
 ipw_logit_sample_boot <- nonprob(selection = ~ X1 + X2 + X3 + X4,
-                                     target = ~ Y,
-                                     data = sample_B,
-                                     svydesign = sample_A_svy,
-                                     method_selection = "logit",
-                                     control_inference = controlInf(var_method = "bootstrap", num_boot = 100),
-                                     verbose = TRUE)
+                                 target = ~ Y,
+                                 data = sample_B,
+                                 svydesign = sample_A_svy,
+                                 method_selection = "logit",
+                                 control_inference = controlInf(var_method = "bootstrap", num_boot = 100),
+                                 verbose = TRUE)
 
 cbind(ipw_logit_sample_boot$output,ipw_logit_sample_boot$confidence_interval)
 
-# MI
-mi_sample_nn_boot <- nonprob(outcome = Y ~ X3 + X4 + X5 + X6,
-                        data = sample_B,
-                        svydesign = sample_A_svy,
-                        method_outcome = "glm",
-                        family_outcome = "gaussian",
-                        control_inference = controlInf(var_method = "bootstrap", num_boot = 100),
-                        verbose = TRUE)
-
-cbind(mi_sample_nn$output,mi_sample_nn$confidence_interval)
 
 # DR
 dr_logit_sample_mle_boot <- nonprob(selection = ~ X1 + X2 + X3 + X4,
@@ -248,10 +234,9 @@ tab_res <- rbind(
   cbind(est="mi with sample (nn)" , mi_sample_nn$output,mi_sample_nn$confidence_interval),
   cbind(est="mi with sample (pmm)" , mi_sample_pmm$output,mi_sample_pmm$confidence_interval),
   cbind(est="mi with sample (glm) SCAD" , mi_sample_scad$output, mi_sample_scad$confidence_interval),
-  cbind(est="mi with sample (nn bootstrap)" , mi_sample_nn_boot$output, mi_sample_nn_boot$confidence_interval),
+  cbind(est="mi with sample (glm bootstrap)" , mi_sample_glm_boot$output, mi_sample_glm_boot$confidence_interval),
   cbind(est="dr with sample (glm)" , dr_logit_sample_mle$output,dr_logit_sample_mle$confidence_interval),
   cbind(est="dr with sample (gee h=1)" , dr_logit_sample_gee$output,dr_logit_sample_gee$confidence_interval),
-  cbind(est="dr with sample (bias min)" , dr_logit_sample_mm$output,dr_logit_sample_mm$confidence_interval),
   cbind(est="dr with sample (mle) SCAD" , dr_logit_sample_scad$output,dr_logit_sample_scad$confidence_interval),
   cbind(est="dr with sample (bias min) SCAD", dr_logit_sample_mm_scad$output, dr_logit_sample_mm_scad$confidence_interval),
   cbind(est="dr with sample (mle bootstrap) ", dr_logit_sample_mle_boot$output, dr_logit_sample_mle_boot$confidence_interval)

@@ -219,7 +219,7 @@ cbind(est6_glm_nn$output,est6_glm_nn$confidence_interval)
 
 
 ## ----mi-glm-pmm-1----------------------------------------------------------------------------------------------------
-set.seed(2023-12-8)
+set.seed(2024-08-27)
 est6_glm_pmm1 <- nonprob(
   outcome = single_shift ~ region + private + nace + size,
   svydesign = jvs_svy,
@@ -232,7 +232,7 @@ cbind(est6_glm_pmm1$output, est6_glm_pmm1$confidence_interval)
 
 
 ## ----mi-glm-pmm-2----------------------------------------------------------------------------------------------------
-set.seed(2023-12-8)
+set.seed(2024-08-27)
 est6_glm_pmm2 <- nonprob(
   outcome = single_shift ~ region + private + nace + size,
   svydesign = jvs_svy,
@@ -245,7 +245,7 @@ cbind(est6_glm_pmm2$output, est6_glm_pmm2$confidence_interval)
 
 
 ## ----mi-glm-scad-----------------------------------------------------------------------------------------------------
-set.seed(2024-4-24)
+set.seed(2024-08-27)
 est7_glm_sel <- nonprob(
   outcome = single_shift ~ region + private + nace + size,
   svydesign = jvs_svy,
@@ -314,7 +314,7 @@ cbind(est8_dr2$output,est8_dr2$confidence_interval)
 
 
 ## ----dr-glm-bootstrap------------------------------------------------------------------------------------------------
-set.seed(2024-4-24)
+set.seed(2024-08-27)
 est8_dr3 <- nonprob(
   selection = ~ region + private + nace + size,
   outcome = single_shift ~ region + private + nace + size,
@@ -331,7 +331,7 @@ cbind(est8_dr3$output,est8_dr3$confidence_interval)
 
 
 ## ----dr-glm-scad-----------------------------------------------------------------------------------------------------
-set.seed(2024-4-24)
+set.seed(2024-08-27)
 est9_dr1 <- nonprob(
   selection = ~ region + private + nace + size,
   outcome = single_shift ~ region + private + nace + size,
@@ -350,7 +350,7 @@ cbind(est9_dr1$output,est9_dr1$confidence_interval)
 
 
 ## ----dr-glm-scad-bias-min--------------------------------------------------------------------------------------------
-set.seed(2024-4-24)
+set.seed(2024-08-27)
 est9_dr2 <- nonprob(
   selection = ~ region + private + nace + size,
   outcome = single_shift ~ region + private + nace + size,
